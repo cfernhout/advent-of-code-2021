@@ -1,0 +1,31 @@
+{
+  "name": "advent-of-code-2021",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "jest",
+    "lint": "tslint -c tslint.json 'days/**/*.ts'",
+    "cdk": "aws-cdk",
+    "prettier:base": "prettier --parser typescript --single-quote",
+    "prettier:check": "npm run prettier:base -- --list-different \"days/**/*.{ts,tsx}\"",
+    "prettier:write": "npm run prettier:base -- --write \"days/**/*.{ts,tsx}\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cfernhout/advent-of-code-2021.git"
+  },
+  "author": "chiel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cfernhout/advent-of-code-2021/issues"
+  },
+  "homepage": "https://github.com/cfernhout/advent-of-code-2021#readme",
+  "dependencies": {
+    "@types/node": "^16.11.11",
+    "csv": "^6.0.4",
+    "csv-parser": "^3.0.0"
+  }
+}

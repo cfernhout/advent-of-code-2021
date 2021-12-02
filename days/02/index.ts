@@ -17,18 +17,40 @@ function getPosition(data: Array<string>) {
   var verPosition = 0
   for (var command of data) {
     var [direction, magnitude] = parseData(command)
+    var magnitudeInt = Number(magnitude)
     if (direction === 'up') {
-      verPosition -= Number(magnitude)
+      verPosition -= magnitudeInt
     }
-    if (direction === 'down') {
-      verPosition += Number(magnitude)
+    else if (direction === 'down') {
+      verPosition += magnitudeInt
     }
-    if (direction === 'forward') {
-      horPosition += Number(magnitude)
+    else if (direction === 'forward') {
+      horPosition += magnitudeInt
+    }
+  }
+  return horPosition * verPosition
+}
+
+function getPositionWithAim(data: Array<string>) {
+  var horPosition = 0
+  var verPosition = 0
+  var aim = 0
+  for (var command of data) {
+    var [direction, magnitude] = parseData(command)
+    var magnitudeInt = Number(magnitude)
+    if (direction === 'up') {
+      aim -= magnitudeInt
+    }
+    else if (direction === 'down') {
+      aim += magnitudeInt
+    }
+    else if (direction === 'forward') {
+      horPosition += magnitudeInt
+      verPosition += aim * magnitudeInt
     }
   }
   return horPosition * verPosition
 }
 
 console.log(getPosition(readData()))
-// console.log(parseData('up 3'))
+console.log(getPositionWithAim(readData()))

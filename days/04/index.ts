@@ -1,7 +1,5 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import internal = require('stream');
-import { isDataView } from 'util/types';
 
 export interface IHashBingoCounter {
   [details: number] : number;

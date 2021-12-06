@@ -3,8 +3,12 @@ import * as path from 'path';
 import internal = require('stream');
 import { isDataView } from 'util/types';
 
-export interface IHash {
+export interface IHashBingoCounter {
   [details: number] : number;
+}
+
+export interface IHashBingoCards {
+  [details: number] : IHashBingoCounter;
 }
 
 function readData(): [string[], string[][][]] {
@@ -23,25 +27,78 @@ function readData(): [string[], string[][][]] {
 }
 const [numbersDrawn, array] = readData()
 
-const flatArray = array[0].flat(1);
-const numberBall = "8"
-let myDict : IHash = {}
-for (let i of Array.from(Array(10).keys())) {
-  myDict[i] = 0
-}
-for (let numberBall of numbersDrawn) {
-  const indexNumber = flatArray.findIndex(x => x === numberBall)
-  console.log(numberBall, indexNumber)
-  if (indexNumber != -1) {
-    const indexCol = indexNumber % 5
-    const indexRow = ~~(indexNumber / 5)
-    myDict[indexCol] += 1
-    myDict[indexRow + 5] +=1
-    if (myDict[indexCol] > 4 || myDict[indexRow + 5] > 4) {
-      break
-    }
+function createFlatArray(array: string[][][]) {
+  const flatArray : string[][] = [];
+  for (let i in array) {
+    flatArray.push(array[i].flat(1))
   }
+  return flatArray
+}
+console.log(createFlatArray(array))
+
+function getAllIndexes(arr: any[], val: any) {
+  var indexes = [], i = -1;
+  while ((i = arr.indexOf(val, i+1)) != -1){
+      indexes.push(i);
+  }
+  return indexes;
 }
 
-console.log(myDict)
-console.log(numbersDrawn)
+function playBingo(flatArray: string[][], numbersDrawn: string[]) : [number[], number[], string[][], string[]] {
+  let flatArrayBingoCards: string[][] = JSON.parse(JSON.stringify(flatArray));
+  let playersBingoCards : IHashBingoCards = {}
+  for (let i of Array.from(Array(flatArray.length).keys())) {
+    let myDict : IHashBingoCounter = {}
+    for (let i of Array.from(Array(10).keys())) {
+      myDict[i] = 0
+    }
+    playersBingoCards[i] = myDict;
+  }
+  let playerGotBingoWhen : number[] = [];
+  let lastDrawn : string[] = []
+  for (let i in flatArray) {
+    let flagStop = false;
+    
+    numbersDrawn.forEach((numberBall, nDrawn) => {
+      const indexNumber = flatArray[i].findIndex(x => x === numberBall)
+      if (indexNumber != -1  && flagStop == false) {
+        const indexCol = indexNumber % 5
+        const indexRow = ~~(indexNumber / 5)
+        playersBingoCards[i][indexCol] += 1
+        playersBingoCards[i][indexRow + 5] +=1
+        const index = flatArrayBingoCards[i].findIndex(x => x === numberBall)
+        if (index > -1) {
+          flatArrayBingoCards[i].splice(index, 1);
+        }
+        if (playersBingoCards[i][indexCol] > 4 || playersBingoCards[i][indexRow + 5] > 4) {
+          flagStop = true;
+          playerGotBingoWhen.push(nDrawn)
+          lastDrawn.push(numberBall)
+        }
+      }
+    });
+  };
+  console.log(playerGotBingoWhen)
+  const winners = getAllIndexes(playerGotBingoWhen, Math.min.apply(null, playerGotBingoWhen))
+  const losers = getAllIndexes(playerGotBingoWhen, Math.max.apply(null, playerGotBingoWhen))
+  console.log()
+  return [winners, losers, flatArrayBingoCards, lastDrawn]
+}
+
+const flatArray = createFlatArray(array);
+const [winners, losers, flatArrayBingoCards, lastDrawn] = playBingo(flatArray, numbersDrawn)
+const winner = winners[0]
+const loser = losers[0]
+console.log(flatArrayBingoCards)
+let sum = 0
+flatArrayBingoCards[winner].forEach((n) => {
+  sum += +n
+})
+console.log(sum * +lastDrawn[winner])
+sum = 0
+flatArrayBingoCards[loser].forEach((n) => {
+  sum += +n
+})
+console.log(sum * +lastDrawn[loser])
+
+

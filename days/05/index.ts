@@ -1,10 +1,5 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { IHashBingoCards } from '../04';
-
-export interface IHashMap {
-  [details: string] : number;
-}
 
 function readData(): string[] {
   const filePath = path.join(__dirname.replace('_build', 'days'), 'data.txt');

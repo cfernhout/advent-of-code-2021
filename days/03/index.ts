@@ -22,7 +22,6 @@ function toBinaryArray(array: Array<number>) {
 function countBinary(data: Array<string>) {
   
   const nBits = data[0].length;
-  const length = data.length;
   let counter = Array<number>(nBits).fill(0);
   data.forEach(function (dataPoint) {
     for (let i = 0; i < nBits; i++) {
@@ -47,12 +46,11 @@ function convertBinaryArrayToDecimal(binaryArray: Array<number>) {
 const [binary1, binary2] = countBinary(readData());
 const gammaRate = convertBinaryArrayToDecimal(binary1);
 const epsilonRate = convertBinaryArrayToDecimal(binary2);
-// console.log(binary1, binary2);
-// console.log(gammaRate);
-// console.log(epsilonRate);
-// console.log(gammaRate * epsilonRate);
+console.log(gammaRate * epsilonRate);
 
-function countBinary1(data: Array<string>, flag: -1 | 1) {
+// Part 2
+
+function countBinaryPart2(data: Array<string>, flag: -1 | 1) {
   
   const nBits = data[0].length;
   
@@ -82,6 +80,6 @@ function countBinary1(data: Array<string>, flag: -1 | 1) {
   return data[0]
 }
 
-const oxygenGeneratorRating = convertBinaryArrayToDecimal(countBinary1(readData(), 1).split('').map(Number));
-const co2ScrubberRating = convertBinaryArrayToDecimal(countBinary1(readData(), -1).split('').map(Number));
-console.log(oxygenGeneratorRating, co2ScrubberRating, oxygenGeneratorRating * co2ScrubberRating)
+const oxygenGeneratorRating = convertBinaryArrayToDecimal(countBinaryPart2(readData(), 1).split('').map(Number));
+const co2ScrubberRating = convertBinaryArrayToDecimal(countBinaryPart2(readData(), -1).split('').map(Number));
+console.log(oxygenGeneratorRating * co2ScrubberRating)

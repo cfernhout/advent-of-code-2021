@@ -6,17 +6,7 @@ function readData(): string[] {
   const file = fs.readFileSync(filePath,'utf8').split('\n');
   return file
 }
-//   const numbersDrawn = file[0].split(',')
-//   let array = [];
-//   for (let a of file.slice(1,file.length)) {
-//     let row = [];
-//     for (let r of a.split('\n')) {
-//       row.push(r.trim().replace(/  /gi, ' ').split(' '))
-//     }
-//     array.push(row);
-//   }
-//   return [numbersDrawn, array]
-// }
+
 const lines = readData()
 
 function splitLineCommand(line: string): [number, number, number, number] {

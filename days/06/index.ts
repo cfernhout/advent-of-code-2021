@@ -1,8 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-type smallCustomInt = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
-
 function readData() {
   const filePath = path.join(__dirname.replace('_build', 'days'), 'data.txt');
   const file = fs.readFileSync(filePath,'utf8').split(',').map(Number);

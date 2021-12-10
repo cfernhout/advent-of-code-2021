@@ -2,7 +2,6 @@ import * as fs from 'fs'
 import * as path from 'path'
 import * as math from 'mathjs'
 import * as tf from '@tensorflow/tfjs'
-import { print } from 'mathjs';
 
 function readData () {
   const filePath = path.join(__dirname.replace('_build', 'days'), 'data.txt');

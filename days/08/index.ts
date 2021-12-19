@@ -17,67 +17,50 @@ function readData() {
   return [input, output]
 }
 
-function setUnion(setA: Set<string> | undefined, setB: Set<string> | undefined): Set<string> {
-  if (setA && setB) {
-    let _union = new Set(setA)
-    for (let elem of setB) {
-      _union.add(elem)
-    }
-    return _union
+function setUnion(setA: Set<string>, setB: Set<string>): Set<string> {
+  let _union = new Set(setA)
+  for (let elem of setB) {
+    _union.add(elem)
   }
-  return new Set()
+  return _union
 }
 
-function setDifference(setA: Set<string> | undefined, setB: Set<string> | undefined): Set<string> {
-  if (setA && setB) {
-    let _difference = new Set(setA)
-    for (let elem of setB) {
-      if (setA.has(elem)) {
-        _difference.delete(elem)
-      }
-      else {
-        _difference.add(elem)
-      }
+function setDifference(setA: Set<string>, setB: Set<string>): Set<string> {
+  let _difference = new Set(setA)
+  for (let elem of setB) {
+    if (setA.has(elem)) {
+      _difference.delete(elem)
     }
-    return _difference
+    else {
+      _difference.add(elem)
+    }
   }
-  return new Set()
+  return _difference
 }
 
-function setIntersection(setA: Set<string> | undefined, setB: Set<string> | undefined): Set<string> {
-  if (setA && setB) {
-    let _intersection = new Set<string>()
-    for (let elem of setB) {
-      if (setA.has(elem)) {
-          _intersection.add(elem)
-      }
+function setIntersection(setA: Set<string>, setB: Set<string>): Set<string> {
+  let _intersection = new Set<string>()
+  for (let elem of setB) {
+    if (setA.has(elem)) {
+        _intersection.add(elem)
     }
-    return _intersection
   }
-  return new Set()
+  return _intersection
 }
 
-function deleteSetFromSet(setA: Set<string> | undefined, setToDelete: Set<string> | undefined): Set<string> {
-  if (setA && setToDelete) {
-    let _remainder = new Set(setA)
-    for (let elem of setToDelete) {
-      _remainder.delete(elem)
-    }
-    return _remainder
+function deleteSetFromSet(setA: Set<string>, setToDelete: Set<string>): Set<string> {
+  let _remainder = new Set(setA)
+  for (let elem of setToDelete) {
+    _remainder.delete(elem)
   }
-  return new Set()
+  return _remainder
 }
 
 function update(arrayN: number[], numberCode: Set<string>, dict: Map<number, Set<string>>) {
   arrayN.forEach(n => {
-    let numberCodeArray = dict.get(n)
-    if (numberCodeArray) {
-      let set = setUnion(new Set(numberCodeArray), numberCode)
-      dict.set(n, set)
-    }
-    else {
-      dict.set(n, numberCode)
-    }
+    let numberCodeArray = dict.get(n)!
+    let set = setUnion(new Set(numberCodeArray), numberCode)
+    dict.set(n, set)
   });
   return dict
 }
@@ -98,7 +81,6 @@ for (let d in inputArray) {
     } 
     else if (length === 4) {
       dictInv.set(4, numberCodeSetInv)
-      
     } 
     else if (length === 5) {
       const arrayN = [2, 3, 5]
@@ -125,7 +107,6 @@ for (let d in inputArray) {
     } 
     else if (length === 4) {
       dict.set(4, numberCodeSet)
-      
     } 
     else if (length === 5) {
       const arrayN = [2, 3, 5]
@@ -141,15 +122,15 @@ for (let d in inputArray) {
   }
 
   let dictAlphabet = new Map<string, string>()
-  dictAlphabet.set('a', Array.from(setDifference(dictInv.get(1), dictInv.get(7)))[0])
-  dictAlphabet.set('e', Array.from(setIntersection(dictInv.get(0), dictInv.get(4)))[0])
-  dictAlphabet.set('b', Array.from(setIntersection(setDifference(dictInv.get(5), new Set(dictAlphabet.get('e'))), dictInv.get(1)))[0])
+  dictAlphabet.set('a', Array.from(setDifference(dictInv.get(1)!, dictInv.get(7)!))[0])
+  dictAlphabet.set('e', Array.from(setIntersection(dictInv.get(0)!, dictInv.get(4)!))[0])
+  dictAlphabet.set('b', Array.from(setIntersection(setDifference(dictInv.get(5)!, new Set(dictAlphabet.get('e')!)), dictInv.get(1)!))[0])
   dictAlphabet.set(
     'g', 
     Array.from(
       setIntersection(
-        setDifference(dictInv.get(4), new Set([dictAlphabet.get('e') as string, dictAlphabet.get('a') as string, dictAlphabet.get('b') as string])), 
-        dictInv.get(4)
+        setDifference(dictInv.get(4)!, new Set([dictAlphabet.get('e')!, dictAlphabet.get('a')!, dictAlphabet.get('b')!])), 
+        dictInv.get(4)!
       )
     )[0]
   )
@@ -157,30 +138,30 @@ for (let d in inputArray) {
     'd', 
     Array.from(
       deleteSetFromSet(
-        deleteSetFromSet(dict.get(4), new Set([dictAlphabet.get('e') as string, dictAlphabet.get('a') as string, dictAlphabet.get('b') as string])),
-        dict.get(1)
+        deleteSetFromSet(dict.get(4)!, new Set([dictAlphabet.get('e')!, dictAlphabet.get('a')!, dictAlphabet.get('b')!])),
+        dict.get(1)!
       )
     )[0]
   )
   dictAlphabet.set(
     'c', 
     Array.from(
-      deleteSetFromSet(dictInv.get(6), new Set([dictAlphabet.get('e') as string, dictAlphabet.get('d') as string]))
+      deleteSetFromSet(dictInv.get(6)!, new Set([dictAlphabet.get('e')!, dictAlphabet.get('d')!]))
     )[0]
   )
   dictAlphabet.set(
     'f', 
     Array.from(
-      deleteSetFromSet(dict.get(1), new Set([dictAlphabet.get('c') as string]))
+      deleteSetFromSet(dict.get(1)!, new Set([dictAlphabet.get('c')!]))
     )[0]
   )
 
   for (let numberCode of outputArray[d]) {
-    if (numberCode.includes(dictAlphabet.get('a') as string)) {
-      if (numberCode.includes(dictAlphabet.get('c') as string)) {
-        if (numberCode.includes(dictAlphabet.get('b') as string)) {
-          if (numberCode.includes(dictAlphabet.get('d') as string)) {
-            if (numberCode.includes(dictAlphabet.get('e') as string)) {
+    if (numberCode.includes(dictAlphabet.get('a')!)) {
+      if (numberCode.includes(dictAlphabet.get('c')!)) {
+        if (numberCode.includes(dictAlphabet.get('b')!)) {
+          if (numberCode.includes(dictAlphabet.get('d')!)) {
+            if (numberCode.includes(dictAlphabet.get('e')!)) {
               arrayDecoded.push(8)
             }
             else {
@@ -192,8 +173,8 @@ for (let d in inputArray) {
           }
         }
         else {
-          if (numberCode.includes(dictAlphabet.get('d') as string)) {
-            if (numberCode.includes(dictAlphabet.get('e') as string)) {
+          if (numberCode.includes(dictAlphabet.get('d')!)) {
+            if (numberCode.includes(dictAlphabet.get('e')!)) {
               arrayDecoded.push(2)
             }
             else {
@@ -205,14 +186,14 @@ for (let d in inputArray) {
           }
         }
       }
-      else if (numberCode.includes(dictAlphabet.get('e') as string)) {
+      else if (numberCode.includes(dictAlphabet.get('e')!)) {
         arrayDecoded.push(6)
       }
       else {
         arrayDecoded.push(5)
       }
     }
-    else if (numberCode.includes(dictAlphabet.get('d') as string)) {
+    else if (numberCode.includes(dictAlphabet.get('d')!)) {
       arrayDecoded.push(4)
     }
     else {

@@ -2,17 +2,17 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 function countIncreasingDepth(input: Array<number>) {
-  var prevDepth = undefined;
-  var counter = 0;
-  for (var depth of input){
+  let prevDepth = undefined;
+  let counter = 0;
+  for (let depth of input){
     // Deal with the first measurement
-    if (prevDepth === undefined) {
+    if (!prevDepth) {
       prevDepth = depth;
       continue;
     }
     // Count if depth is increasing
     if (depth > prevDepth) {
-      counter += 1;
+      counter++;
     }
     prevDepth = depth;
   }
@@ -20,9 +20,9 @@ function countIncreasingDepth(input: Array<number>) {
 }
 
 function countIncreasingDepthWindow(input: Array<number>) {
-  var prevDepthWindow = 0;
-  var counter = 0;
-  for (var i in input){
+  let prevDepthWindow = 0;
+  let counter = 0;
+  for (let i in input){
     // Deal with the first (4) measurement
     if (+i < 3) {
       if (+i === 2) {
@@ -31,9 +31,9 @@ function countIncreasingDepthWindow(input: Array<number>) {
       continue;
     }
     // Count if depth is increasing
-    var newDepthWindow = input[i] + input[+i-1] + input[+i-2]
+    let newDepthWindow = input[i] + input[+i-1] + input[+i-2]
     if (newDepthWindow > prevDepthWindow) {
-      counter += 1;
+      counter++;
     }
     prevDepthWindow = newDepthWindow;
   }

@@ -48,7 +48,7 @@ for (let i in data) {
     }
     if ("])}>".includes(bracket)) {
       let latestBracket = bracketQueue.pop()
-      if (latestBracket === undefined) {
+      if (!latestBracket) {
         console.log("Empty queue", bracket)
         illigalBracketFlag = true
       }

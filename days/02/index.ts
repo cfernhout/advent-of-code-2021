@@ -13,11 +13,11 @@ function readData() {
 }
 
 function getPosition(data: Array<string>) {
-  var horPosition = 0
-  var verPosition = 0
-  for (var command of data) {
-    var [direction, magnitude] = parseData(command)
-    var magnitudeInt = Number(magnitude)
+  let horPosition = 0
+  let verPosition = 0
+  for (let command of data) {
+    let [direction, magnitude] = parseData(command)
+    let magnitudeInt = Number(magnitude)
     if (direction === 'up') {
       verPosition -= magnitudeInt
     }
@@ -32,12 +32,12 @@ function getPosition(data: Array<string>) {
 }
 
 function getPositionWithAim(data: Array<string>) {
-  var horPosition = 0
-  var verPosition = 0
-  var aim = 0
-  for (var command of data) {
-    var [direction, magnitude] = parseData(command)
-    var magnitudeInt = Number(magnitude)
+  let horPosition = 0
+  let verPosition = 0
+  let aim = 0
+  for (let command of data) {
+    let [direction, magnitude] = parseData(command)
+    let magnitudeInt = Number(magnitude)
     if (direction === 'up') {
       aim -= magnitudeInt
     }

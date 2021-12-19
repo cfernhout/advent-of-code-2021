@@ -1,7 +1,6 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import * as tf from '@tensorflow/tfjs'
-import { consoleTestResultHandler } from 'tslint/lib/test';
 
 function readData () {
   const filePath = path.join(__dirname.replace('_build', 'days'), 'data.txt');
